@@ -14,7 +14,7 @@ RED = (255,0,0)
 BLUE = (0,0,255)
 GREEN = (0,255,0) #(RED, GREEN, BLUE)
 BLACK = (0,0,0)
-player_size = 60
+player_size = 50
 player_position = [int(width / 2), int(height - 2 * player_size)]
 bullet_size = 10
 bullet_pos = [int(player_position[0] + 30), int(player_position[1]) + 25]
@@ -26,8 +26,8 @@ invader_pos = [(440, 50), (400, 50), (420, 30)]
 clock = pygame.time.Clock()
 screen = pygame.display.set_mode((width, height))
 
-#idan added this line  TODO: PLEASE delete this comment after you notice it
-pygame.display.set_caption("space invaders") #` Add title to the screen (put whatever you want guy)
+
+pygame.display.set_caption("SPACE INVADERS") #` Add title to the screen (put whatever you want guy)
 
 
 def iscollision(invader_pos, bullet_pos):
@@ -58,9 +58,9 @@ while not game_over:
                 # delete old player position
                 rect = (player_position[0], player_position[1], player_size, player_size)
                 screen.fill(BLACK, rect)
-
-                x -= player_size
-                bullet_pos[0] -= player_size
+                if player_position[0] >= 1:
+                    x -= player_size
+                    bullet_pos[0] -= player_size
                 update_y_bullet_pos(bullet_pos,player_position)
             if event.key == pygame.K_RIGHT:  # Todo: idan - add boundries
 
@@ -69,15 +69,15 @@ while not game_over:
                 screen.fill(BLACK, rect)
 
                 # update player pos
-                x += player_size
-
-                bullet_pos[0] += player_size
+                if player_position[0] <= width - player_size -1:
+                    x += player_size
+                    bullet_pos[0] += player_size
                 update_y_bullet_pos(bullet_pos, player_position)
 
             player_position = [x, y]
 
             if event.key == pygame.K_SPACE:
-                while bullet_pos[1] > 50:
+                while bullet_pos[1] > 0:
                     # bullet is in the player position
                     if bullet_pos[1] > int(player_position[1]):
                         pygame.draw.circle(screen, BLUE, (bullet_pos[0], bullet_pos[1]), BULLET_RADIUS, 0)
